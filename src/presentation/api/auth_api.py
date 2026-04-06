@@ -4,7 +4,8 @@ from src.application.DTO.user_dto import CreateUserDTO
 from src.application.user_service.auth_user_uc import AuthService
 from src.infrastructure.security.password import PasswordHandler
 from src.infrastructure.config import settings
-from src.presentation.schemas.user_schemas import UserCreate, UserResponse, TokenResponse, LoginRequest
+from src.presentation.schemas.user_schemas import UserCreate, UserResponse
+from src.presentation.schemas.auth_schemas import TokenResponse, LoginRequest
 from src.presentation.dependencies import get_password_handler, get_user_register_uc, get_auth_service
 
 from fastapi import APIRouter, HTTPException, status, Depends
@@ -13,7 +14,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
@@ -23,12 +24,11 @@ async def register(
 ):
     try:
         hashed_password = password_handler.hash_password(user.password)
-        print(f"DEBUG: Hashed length BEFORE saving: {len(hashed_password)}")
         dto = CreateUserDTO(
             name = user.name,
             surname = user.surname,
             email = user.email,
-            date = user.birt_date
+            birth_date = user.birt_date
         )
         user = await usecase.execute(dto, hashed_password)
         return user

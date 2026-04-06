@@ -5,6 +5,7 @@ from src.domain.virtual_objects.balance_vo import Balance
 from datetime import datetime, timezone
 from src.domain.exceptions.exceptions import UserAlreadyExistsError
 from src.domain.enums import Role
+from src.infrastructure.config import settings
 
 class RegisterUserUC:
     def __init__(self, uow: UnitOfWork):
@@ -17,18 +18,24 @@ class RegisterUserUC:
             if existing:
                 raise UserAlreadyExistsError("Already have this user with this email")
             
-            blns = Balance(0)
-            blns_int = blns.amount
+            flag = False
+
+            if dto.email == settings.INITIAL_ADMIN_EMAIL:
+                admin = Role.HEAD.value
+                flag = True
+            else: admin = Role.USER.value
+            
             user = User(
                 user_id=None,
                 name = dto.name,
                 surname = dto.surname,
                 email=dto.email,
-                birth_date=dto.date,
+                birth_date=dto.birth_date,
                 hashed_password=hashed_password,
-                balance=blns_int,
+                balance=Balance(0).amount,
                 created_at=datetime.now(timezone.utc),
-                role=Role.USER.value
+                role=admin,
+                is_admin=flag
             )
 
             user.check_age()

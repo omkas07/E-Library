@@ -14,3 +14,4 @@ class UserModel(Base):
     balance: Mapped[int] = mapped_column(nullable=False)
     created_at: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     birth_date: Mapped[date] = mapped_column(nullable=False)
+    is_admin: Mapped[bool] = mapped_column(nullable=False)

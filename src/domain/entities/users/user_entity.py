@@ -6,7 +6,8 @@ from typing import Optional
 
 class User:    
     def __init__(self, user_id: Optional[int], name: str, surname: str, email: str,
-                  birth_date: date, hashed_password: str, balance: int, role: str, created_at: datetime):
+                  birth_date: date, hashed_password: str, balance: int, role: str,
+                  created_at: datetime, is_admin: bool):
         self.user_id = user_id
         self.name = name
         self.surname = surname
@@ -16,6 +17,7 @@ class User:
         self.role = role
         self.birth_date = birth_date
         self.created_at = created_at
+        self.is_admin = is_admin
 
     def check_age(self):
         today = date.today()
@@ -29,7 +31,7 @@ class User:
         if birthday_14 > today:
             raise AgeRestrictionError("The user should be 14 or older")
     
-    def check_age_GBA(self):
+    def check_age_admin(self):
         today = date.today()
 
         try:

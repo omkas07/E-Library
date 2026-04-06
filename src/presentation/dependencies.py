@@ -1,6 +1,7 @@
 from src.infrastructure.database.database import async_session_maker
 from src.infrastructure.repositories.unit_of_work_impl import UnitOfWorkImpl
 from src.application.user_service import AuthService, RegisterUserUC
+from src.application.admin_service.register_admin_uc import RegisterAdminUC
 from src.infrastructure.security.password import PasswordHandler
 from src.infrastructure.security.jwt import JWTHandler
 from src.domain.exceptions.exceptions import UnauthorizedError
@@ -18,6 +19,9 @@ def get_password_handler():
 
 def get_user_register_uc(uow: UnitOfWorkImpl = Depends(get_uow)):
     return RegisterUserUC(uow)
+
+def get_admin_register_uc(uow: UnitOfWorkImpl = Depends(get_uow)):
+    return RegisterAdminUC(uow)
 
 def get_password_handler():
     return PasswordHandler()

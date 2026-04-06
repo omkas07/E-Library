@@ -19,7 +19,8 @@ class IUserRepoImpl(IUserRepo):
             balance = user.balance,
             role = user.role,
             created_at = user.created_at,
-            birth_date = user.birth_date
+            birth_date = user.birth_date,
+            is_admin = user.is_admin
         )
 
         self.session.add(db_user)
@@ -73,7 +74,8 @@ class IUserRepoImpl(IUserRepo):
             balance=db_user.balance,
             birth_date=db_user.birth_date,
             role=db_user.role,
-            created_at=db_user.created_at
+            created_at=db_user.created_at,
+            is_admin=db_user.is_admin
         )
 
         

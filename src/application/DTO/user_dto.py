@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, date
 
 @dataclass
 class CreateUserDTO:
     name: str
     surname: str
     email: str
-    date: datetime
+    birth_date: date
 
 @dataclass
 class ResponseUserDTO:
